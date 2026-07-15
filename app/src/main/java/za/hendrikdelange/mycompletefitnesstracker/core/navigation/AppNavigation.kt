@@ -17,11 +17,49 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Login.route
+        startDestination = Screen.Splash.route
     ) {
 
         composable(Screen.Splash.route) {
-            SplashScreen()
+
+            SplashScreen(
+
+                onFinished = { loggedIn ->
+
+                    if (loggedIn) {
+
+                        navController.navigate(
+                            Screen.Dashboard.route
+                        ) {
+
+                            popUpTo(
+                                Screen.Splash.route
+                            ) {
+                                inclusive = true
+                            }
+
+                        }
+
+                    } else {
+
+                        navController.navigate(
+                            Screen.Login.route
+                        ) {
+
+                            popUpTo(
+                                Screen.Splash.route
+                            ) {
+                                inclusive = true
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            )
+
         }
 
         composable(Screen.Login.route) {

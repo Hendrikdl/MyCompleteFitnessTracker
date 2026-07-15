@@ -1,13 +1,44 @@
 package za.hendrikdelange.mycompletefitnesstracker.ui.splash
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.delay
+import za.hendrikdelange.mycompletefitnesstracker.viewmodel.SplashViewModel
+
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(
+    viewModel: SplashViewModel = hiltViewModel(),
+    onFinished: (Boolean) -> Unit
+) {
 
-    Text(
-        text = "Splash Screen"
-    )
+
+    LaunchedEffect(Unit) {
+
+        delay(1500)
+
+        val loggedIn = viewModel.isUserLoggedIn()
+
+        onFinished(loggedIn)
+
+    }
+
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+
+        Text(
+            text = "My Complete Fitness Tracker"
+        )
+
+    }
 
 }
