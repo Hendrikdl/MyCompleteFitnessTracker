@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -14,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "za.example.mycompletefitnesstracker"
+        applicationId = "za.hendrikdelange.mycompletefitnesstracker"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -63,4 +64,8 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.navigation.compose)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 }
