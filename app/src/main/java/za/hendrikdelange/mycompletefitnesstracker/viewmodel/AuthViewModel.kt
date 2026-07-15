@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import za.hendrikdelange.mycompletefitnesstracker.data.repository.AuthRepository
 import javax.inject.Inject
+import com.google.firebase.auth.FirebaseAuth
 
 
 @HiltViewModel
@@ -15,13 +16,23 @@ class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-
+    private val firebaseAuth = FirebaseAuth.getInstance()
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
 
 
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage = _errorMessage.asStateFlow()
+
+    private val _currentUserUid = MutableStateFlow<String?>(null)
+    val currentUserUid = _currentUserUid.asStateFlow()
+
+    fun loadCurrentUser() {
+
+        _currentUserUid.value =
+            firebaseAuth.currentUser?.uid
+
+    }
 
 
     fun register(

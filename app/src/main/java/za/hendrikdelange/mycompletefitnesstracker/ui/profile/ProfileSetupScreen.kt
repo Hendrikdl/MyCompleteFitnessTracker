@@ -14,13 +14,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import za.hendrikdelange.mycompletefitnesstracker.viewmodel.ProfileViewModel
 
 
 @Composable
 fun ProfileSetupScreen(
+    firebaseUid: String,
     onComplete: () -> Unit
 ) {
-
+    val viewModel: ProfileViewModel = hiltViewModel()
     var currentStep by remember {
         mutableIntStateOf(1)
     }
@@ -71,7 +74,17 @@ fun ProfileSetupScreen(
 
                 } else {
 
-                    onComplete()
+                    viewModel.saveProfile(
+
+                        firebaseUid = firebaseUid,
+
+                        onSaved = {
+
+                            onComplete()
+
+                        }
+
+                    )
 
                 }
 

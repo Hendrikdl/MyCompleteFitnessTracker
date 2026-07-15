@@ -2,6 +2,7 @@ package za.hendrikdelange.mycompletefitnesstracker.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ProfileEntity
@@ -11,8 +12,10 @@ import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ProfileEntit
 interface ProfileDao {
 
 
-    @Insert
-    suspend fun insertProfile(
+    @Insert(
+        onConflict = OnConflictStrategy.REPLACE
+    )
+    suspend fun insert(
         profile: ProfileEntity
     )
 
@@ -23,6 +26,5 @@ interface ProfileDao {
     fun getProfile(
         uid: String
     ): Flow<ProfileEntity?>
-
 
 }

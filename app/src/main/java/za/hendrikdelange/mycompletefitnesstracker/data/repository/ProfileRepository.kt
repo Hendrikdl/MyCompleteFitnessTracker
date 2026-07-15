@@ -29,7 +29,7 @@ class ProfileRepository @Inject constructor(
         profile: ProfileEntity
     ) {
 
-        profileDao.insertProfile(profile)
+        profileDao.insert(profile)
 
     }
 
