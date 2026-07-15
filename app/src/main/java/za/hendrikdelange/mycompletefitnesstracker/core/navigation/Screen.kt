@@ -1,4 +1,15 @@
 package za.hendrikdelange.mycompletefitnesstracker.core.navigation
 
-class Screen {
+sealed class Screen(
+    val route: String
+) {
+
+    object Splash : Screen("splash")
+
+    object Login : Screen("login")
+
+    object Register : Screen("register")
+
+    object Dashboard : Screen("dashboard")
+
 }
