@@ -17,7 +17,7 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Splash.route
+        startDestination = Screen.Login.route
     ) {
 
         composable(Screen.Splash.route) {
@@ -25,11 +25,41 @@ fun AppNavigation() {
         }
 
         composable(Screen.Login.route) {
-            LoginScreen()
+
+            LoginScreen(
+
+                onLoginSuccess = {
+
+                    navController.navigate(
+                        Screen.Dashboard.route
+                    )
+
+                },
+
+                onRegisterClick = {
+
+                    navController.navigate(
+                        Screen.Register.route
+                    )
+
+                }
+
+            )
+
         }
 
         composable(Screen.Register.route) {
-            RegisterScreen()
+
+            RegisterScreen(
+                onRegistered = {
+
+                    navController.navigate(
+                        Screen.Dashboard.route
+                    )
+
+                }
+            )
+
         }
 
         composable(Screen.Dashboard.route) {
