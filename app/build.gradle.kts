@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.mycompletefitnesstracker"
+    namespace = "za.hendrikdelange.mycompletefitnesstracker"
     compileSdk {
-        version = release(36) {
+        version = release(37) {
             minorApiLevel = 1
         }
     }
 
     defaultConfig {
-        applicationId = "com.example.mycompletefitnesstracker"
+        applicationId = "za.example.mycompletefitnesstracker"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -29,8 +29,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true

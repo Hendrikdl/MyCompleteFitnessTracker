@@ -1,4 +1,4 @@
-package com.example.mycompletefitnesstracker
+package za.hendrikdelange.mycompletefitnesstracker
 
 import org.junit.Test
 
