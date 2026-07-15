@@ -1,4 +1,14 @@
 package za.hendrikdelange.mycompletefitnesstracker.ui.profile
 
-class ProfileStepFitness {
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+
+
+@Composable
+fun ProfileStepFitness() {
+
+    Text(
+        text = "Fitness Goals"
+    )
+
 }
