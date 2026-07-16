@@ -58,7 +58,12 @@ class AuthViewModel @Inject constructor(
 
             result
                 .onSuccess {
+
+                    _currentUserUid.value =
+                        firebaseAuth.currentUser?.uid
+
                     onSuccess()
+
                 }
                 .onFailure {
 
@@ -95,7 +100,12 @@ class AuthViewModel @Inject constructor(
 
             result
                 .onSuccess {
+
+                    _currentUserUid.value =
+                        firebaseAuth.currentUser?.uid
+
                     onSuccess()
+
                 }
                 .onFailure {
 

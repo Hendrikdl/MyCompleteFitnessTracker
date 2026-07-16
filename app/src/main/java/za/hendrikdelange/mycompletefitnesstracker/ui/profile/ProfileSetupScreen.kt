@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -16,6 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import za.hendrikdelange.mycompletefitnesstracker.viewmodel.ProfileViewModel
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.navigationBarsPadding
 
 
 @Composable
@@ -28,80 +35,96 @@ fun ProfileSetupScreen(
         mutableIntStateOf(1)
     }
 
+    val firstName by viewModel.firstName.collectAsState()
+    val surname by viewModel.surname.collectAsState()
+    val dateOfBirth by viewModel.dateOfBirth.collectAsState()
+    val gender by viewModel.gender.collectAsState()
+
+    val fitnessGoal by viewModel.fitnessGoal.collectAsState()
+    val experienceLevel by viewModel.experienceLevel.collectAsState()
+    val workoutLocation by viewModel.workoutLocation.collectAsState()
+
+    val heightCm by viewModel.heightCm.collectAsState()
+    val weightKg by viewModel.weightKg.collectAsState()
+
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(24.dp)
+            .navigationBarsPadding(),
 
         horizontalAlignment = Alignment.CenterHorizontally,
 
-        verticalArrangement = Arrangement.Center
     ) {
 
 
-        Text(
-            text = "Profile Setup Step $currentStep / 3"
+        ProfileProgress(
+            currentStep = currentStep,
+            totalSteps = 3
         )
+        Box(
+            modifier = Modifier.weight(1f)
+        ) {
+            AnimatedContent(
+                targetState = currentStep,
+                transitionSpec = {
+                    fadeIn() togetherWith fadeOut()
+                },
+                label = "Profile Wizard"
+            ) { step ->
 
+                when (step) {
 
-        when (currentStep) {
+                    1 -> PersonalStep()
 
-            1 -> {
-                ProfileStepPersonal()
-            }
+                    2 -> FitnessStep()
 
-
-            2 -> {
-                ProfileStepFitness()
-            }
-
-
-            3 -> {
-                ProfileStepMeasurements()
-            }
-
-        }
-
-
-        Button(
-
-            onClick = {
-
-                if (currentStep < 3) {
-
-                    currentStep++
-
-                } else {
-
-                    viewModel.saveProfile(
-
-                        firebaseUid = firebaseUid,
-
-                        onSaved = {
-
-                            onComplete()
-
-                        }
-
-                    )
+                    3 -> MeasurementsStep()
 
                 }
 
             }
-
-        ) {
-
-            Text(
-                text =
-                    if (currentStep < 3)
-                        "Next"
-                    else
-                        "Save Profile"
-            )
-
         }
 
-    }
+            ProfileNavigation(
+
+                currentStep = currentStep,
+                totalSteps = 3,
+
+                canContinue = when (currentStep) {
+
+                    1 -> firstName.isNotBlank() &&
+                            surname.isNotBlank() &&
+                            dateOfBirth.isNotBlank() &&
+                            gender.isNotBlank()
+
+                    2 -> fitnessGoal.isNotBlank() &&
+                            experienceLevel.isNotBlank() &&
+                            workoutLocation.isNotBlank()
+
+                    else -> heightCm.isNotBlank() &&
+                            weightKg.isNotBlank()
+                },
+
+                onPrevious = {
+                    currentStep--
+                },
+
+                onNext = {
+                    currentStep++
+                },
+
+                onFinish = {
+
+                    viewModel.saveProfile(firebaseUid) {
+                        onComplete()
+                    }
+
+                }
+
+
+            )
+        }
 
 }

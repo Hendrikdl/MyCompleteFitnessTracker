@@ -151,6 +151,33 @@ class ProfileViewModel @Inject constructor(
         _calfCm.value = value
     }
 
+    val isPersonalStepValid: Boolean
+        get() =
+            firstName.value.isNotBlank() &&
+                    surname.value.isNotBlank() &&
+                    dateOfBirth.value.isNotBlank() &&
+                    gender.value.isNotBlank()
+
+
+    val isFitnessStepValid: Boolean
+        get() =
+            fitnessGoal.value.isNotBlank() &&
+                    experienceLevel.value.isNotBlank() &&
+                    workoutLocation.value.isNotBlank()
+
+    private val _workoutLocation = MutableStateFlow("")
+    val workoutLocation = _workoutLocation.asStateFlow()
+
+    fun updateWorkoutLocation(value: String) {
+        _workoutLocation.value = value
+    }
+
+
+    val isMeasurementsStepValid: Boolean
+        get() =
+            heightCm.value.isNotBlank() &&
+                    weightKg.value.isNotBlank()
+
 
     fun saveProfile(
         firebaseUid: String,
@@ -167,7 +194,8 @@ class ProfileViewModel @Inject constructor(
                 dateOfBirth = _dateOfBirth.value,
                 gender = _gender.value,
                 fitnessGoal = _fitnessGoal.value,
-                experienceLevel = _experienceLevel.value
+                experienceLevel = _experienceLevel.value,
+                workoutLocation =  _workoutLocation.value,
 
             )
 

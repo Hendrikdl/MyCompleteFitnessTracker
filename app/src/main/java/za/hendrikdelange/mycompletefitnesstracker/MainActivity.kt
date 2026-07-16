@@ -4,19 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import za.hendrikdelange.mycompletefitnesstracker.ui.theme.MyCompleteFitnessTrackerTheme
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import za.hendrikdelange.mycompletefitnesstracker.core.navigation.AppNavigation
+import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -25,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
 
-            MyCompleteFitnessTrackerTheme {
+            FitnessTheme {
 
                 AppNavigation()
 

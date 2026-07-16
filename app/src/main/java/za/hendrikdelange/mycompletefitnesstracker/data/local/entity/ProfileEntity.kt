@@ -26,6 +26,8 @@ data class ProfileEntity(
 
     val experienceLevel: String,
 
+    val workoutLocation: String,
+
     val createdDate: Long = System.currentTimeMillis()
 
 )

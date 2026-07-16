@@ -1,5 +1,6 @@
 package za.hendrikdelange.mycompletefitnesstracker.core.navigation
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
@@ -15,21 +16,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import za.hendrikdelange.mycompletefitnesstracker.viewmodel.AuthViewModel
+import com.google.firebase.auth.FirebaseAuth
+import androidx.compose.material3.Text
 
 
 @Composable
 fun AppNavigation() {
 
     val navController = rememberNavController()
-    val authViewModel: AuthViewModel = hiltViewModel()
 
-    val currentUserUid by authViewModel.currentUserUid.collectAsState()
-
-    LaunchedEffect(Unit) {
-
-        authViewModel.loadCurrentUser()
-
-    }
 
     NavHost(
         navController = navController,
@@ -40,7 +35,9 @@ fun AppNavigation() {
 
         composable(Screen.ProfileCheck.route) {
 
-            currentUserUid?.let { uid ->
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+            if (uid != null) {
 
                 ProfileCheckScreen(
 
@@ -48,21 +45,29 @@ fun AppNavigation() {
 
                     onProfileFound = {
 
-                        navController.navigate(
-                            Screen.Dashboard.route
-                        )
+                        navController.navigate(Screen.Dashboard.route) {
+                            popUpTo(Screen.ProfileCheck.route) {
+                                inclusive = true
+                            }
+                        }
 
                     },
 
                     onProfileMissing = {
 
-                        navController.navigate(
-                            Screen.ProfileSetup.route
-                        )
+                        navController.navigate(Screen.ProfileSetup.route) {
+                            popUpTo(Screen.ProfileCheck.route) {
+                                inclusive = true
+                            }
+                        }
 
                     }
 
                 )
+
+            } else {
+
+                Text("No authenticated user")
 
             }
 
@@ -70,7 +75,9 @@ fun AppNavigation() {
 
         composable(Screen.ProfileSetup.route) {
 
-            currentUserUid?.let { uid ->
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+            if (uid != null) {
 
                 ProfileSetupScreen(
 
@@ -78,13 +85,9 @@ fun AppNavigation() {
 
                     onComplete = {
 
-                        navController.navigate(
-                            Screen.Dashboard.route
-                        ) {
+                        navController.navigate(Screen.Dashboard.route) {
 
-                            popUpTo(
-                                Screen.ProfileSetup.route
-                            ) {
+                            popUpTo(Screen.ProfileSetup.route) {
                                 inclusive = true
                             }
 
@@ -93,6 +96,10 @@ fun AppNavigation() {
                     }
 
                 )
+
+            } else {
+
+                Text("No authenticated user")
 
             }
 
@@ -155,7 +162,7 @@ fun AppNavigation() {
                 onRegisterClick = {
 
                     navController.navigate(
-                        Screen.ProfileCheck.route
+                        Screen.Register.route
                     )
 
                 }
@@ -167,17 +174,16 @@ fun AppNavigation() {
         composable(Screen.Register.route) {
 
             RegisterScreen(
+
                 onRegistered = {
 
-                    navController.navigate(
-                        Screen.Dashboard.route
-                    )
+                    navController.navigate(Screen.ProfileCheck.route)
 
                 }
+
             )
 
         }
-
         composable(Screen.Dashboard.route) {
             DashboardScreen()
         }
