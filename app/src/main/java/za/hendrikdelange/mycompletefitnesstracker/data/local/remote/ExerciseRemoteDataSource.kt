@@ -8,10 +8,19 @@ class ExerciseRemoteDataSource @Inject constructor(
     private val api: ExerciseApi
 ) {
 
-    suspend fun downloadExercises(): List<ExerciseDto> {
+    suspend fun downloadExercises(
+
+        limit: Int,
+
+        offset: Int
+
+    ): List<ExerciseDto> {
 
         return api
-            .getExercises()
+            .getExercises(
+                limit,
+                offset
+            )
             .results
 
     }

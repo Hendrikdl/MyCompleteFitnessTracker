@@ -1,82 +1,78 @@
-    package za.hendrikdelange.mycompletefitnesstracker.ui.exercises
+package za.hendrikdelange.mycompletefitnesstracker.ui.exercises
 
-    import androidx.compose.foundation.background
-    import androidx.compose.foundation.layout.Arrangement
-    import androidx.compose.foundation.layout.Column
-    import androidx.compose.foundation.layout.fillMaxSize
-    import androidx.compose.foundation.layout.padding
-    import androidx.compose.foundation.lazy.LazyColumn
-    import androidx.compose.foundation.lazy.items
-    import androidx.compose.runtime.Composable
-    import androidx.compose.runtime.collectAsState
-    import androidx.compose.runtime.getValue
-    import androidx.compose.ui.Modifier
-    import androidx.hilt.navigation.compose.hiltViewModel
-    import za.hendrikdelange.mycompletefitnesstracker.ui.components.input.FitnessSearchBar
-    import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
-    import za.hendrikdelange.mycompletefitnesstracker.viewmodel.ExerciseViewModel
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import za.hendrikdelange.mycompletefitnesstracker.ui.components.cards.ExerciseLibraryHeader
+import za.hendrikdelange.mycompletefitnesstracker.ui.components.input.FitnessSearchBar
+import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
+import za.hendrikdelange.mycompletefitnesstracker.viewmodel.ExerciseViewModel
 
-    @Composable
-    fun ExerciseScreen(
+@Composable
+fun ExerciseScreen(
 
-        viewModel: ExerciseViewModel = hiltViewModel()
+    viewModel: ExerciseViewModel = hiltViewModel()
+
+) {
+
+    val search by viewModel.searchText.collectAsState()
+
+    val exercises by viewModel.exercises.collectAsState()
+
+    val count by viewModel.exerciseCount.collectAsState()
+
+    Column(
+
+        modifier = Modifier
+            .fillMaxSize()
+            .background(FitnessDesign.colors.Background)
+            .padding(FitnessDesign.spacing.Medium),
+
+        verticalArrangement = Arrangement.spacedBy(
+            FitnessDesign.spacing.Medium
+        )
 
     ) {
 
-        val search by viewModel.searchText.collectAsState()
+        ExerciseLibraryHeader(
+            count = count
+        )
 
-        val exercises by viewModel.exercises.collectAsState()
+        FitnessSearchBar(
 
-        Column(
+            value = search,
 
-            modifier = Modifier
-                .fillMaxSize()
-                .background(FitnessDesign.colors.Background)
-                .padding(FitnessDesign.spacing.Medium),
+            onValueChange = viewModel::onSearchChanged
 
+        )
+
+        LazyColumn(
 
             verticalArrangement = Arrangement.spacedBy(
-
-                FitnessDesign.spacing.Medium
-
+                FitnessDesign.spacing.Small
             )
 
         ) {
 
-            FitnessSearchBar(
+            items(exercises) { exercise ->
 
-                value = search,
-
-                onValueChange = viewModel::onSearchChanged
-
-            )
-
-            LazyColumn(
-
-                verticalArrangement = Arrangement.spacedBy(
-
-                    FitnessDesign.spacing.Small
-
+                ExerciseCard(
+                    exercise = exercise
                 )
-
-            ) {
-
-                items(
-
-                    exercises
-
-                ) { exercise ->
-
-                    ExerciseCard(
-
-                        exercise = exercise
-
-                    )
-
-                }
 
             }
 
         }
 
     }
+
+}

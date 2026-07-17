@@ -38,4 +38,13 @@ interface ExerciseDao {
 
     @Query("SELECT COUNT(*) FROM exercise_library")
     suspend fun getCount(): Int
+
+    @Query("SELECT COUNT(*) FROM exercise_library")
+    fun observeExerciseCount(): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM exercise_library")
+    suspend fun getExerciseCount(): Int
+
+
+
 }

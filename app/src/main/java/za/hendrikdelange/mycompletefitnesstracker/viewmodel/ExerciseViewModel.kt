@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import za.hendrikdelange.mycompletefitnesstracker.data.repository.ExerciseRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import za.hendrikdelange.mycompletefitnesstracker.data.model.ExerciseSyncState
 
 @HiltViewModel
 class ExerciseViewModel @Inject constructor(
@@ -44,15 +47,14 @@ class ExerciseViewModel @Inject constructor(
 
         )
 
-    init {
 
-        viewModelScope.launch {
+    private val _syncState =
+        MutableStateFlow<ExerciseSyncState>(
+            ExerciseSyncState.Idle
+        )
 
-            repository.initializeExerciseLibrary()
-
-        }
-
-    }
+    val syncState =
+        _syncState.asStateFlow()
 
     fun onSearchChanged(
         text: String
@@ -61,5 +63,63 @@ class ExerciseViewModel @Inject constructor(
         _searchText.value = text
 
     }
+
+    val exerciseCount = repository
+        .observeExerciseCount()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0
+        )
+
+    fun initializeLibrary() {
+
+        viewModelScope.launch {
+
+            try {
+
+                _syncState.value =
+                    ExerciseSyncState.Checking
+
+
+                repository.initializeExerciseLibrary {
+
+                        count ->
+
+                    _syncState.value =
+                        ExerciseSyncState.Downloading(
+                            count
+                        )
+
+                }
+
+
+                val total =
+                    repository.getExerciseCount()
+
+
+                _syncState.value =
+                    ExerciseSyncState.Complete(
+                        total
+                    )
+
+
+            } catch (e: Exception) {
+
+                _syncState.value =
+                    ExerciseSyncState.Error(
+                        e.message ?: "Unknown error"
+                    )
+
+            }
+
+        }
+
+    }
+
+    init {
+        initializeLibrary()
+    }
+
 
 }

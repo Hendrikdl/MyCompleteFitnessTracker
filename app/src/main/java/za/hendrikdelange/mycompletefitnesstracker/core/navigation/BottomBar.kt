@@ -7,6 +7,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
 
 @Composable
 fun BottomBar(
@@ -33,7 +38,13 @@ fun BottomBar(
     val currentRoute =
         navBackStackEntry.value?.destination?.route
 
-    NavigationBar {
+    NavigationBar(
+
+        containerColor = FitnessDesign.colors.Card,
+
+        tonalElevation = 0.dp
+
+    ) {
 
         items.forEach { item ->
 
@@ -66,9 +77,28 @@ fun BottomBar(
 
                 label = {
 
-                    Text(item.title)
+                    Text(text = item.title,
 
-                }
+                        fontSize = 10.sp,
+
+                        maxLines = 1,
+
+                        overflow = TextOverflow.Ellipsis)
+
+                },
+                colors = NavigationBarItemDefaults.colors(
+
+                    selectedIconColor = FitnessDesign.colors.Primary,
+
+                    selectedTextColor = FitnessDesign.colors.Primary,
+
+                    unselectedIconColor = FitnessDesign.colors.TextSecondary,
+
+                    unselectedTextColor = FitnessDesign.colors.TextSecondary,
+
+                    indicatorColor = FitnessDesign.colors.Background
+
+                )
 
             )
 
