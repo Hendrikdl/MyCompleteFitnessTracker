@@ -6,19 +6,22 @@ import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.ProfileDao
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ProfileEntity
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.BodyMeasurementEntity
 import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.MeasurementDao
+import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ExerciseEntity
+import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.ExerciseDao
 
 
 @Database(
     entities = [
         ProfileEntity::class,
-        BodyMeasurementEntity::class
+        BodyMeasurementEntity::class,
+        ExerciseEntity::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
-abstract class MyCompleteFitnessTrackerDatabase : RoomDatabase() {
+abstract class FitnessDatabase : RoomDatabase() {
 
-
+    abstract fun exerciseDao(): ExerciseDao
     abstract fun profileDao(): ProfileDao
 
 

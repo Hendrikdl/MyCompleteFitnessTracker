@@ -2,24 +2,16 @@ package za.hendrikdelange.mycompletefitnesstracker.core.navigation
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import za.hendrikdelange.mycompletefitnesstracker.ui.auth.LoginScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.auth.RegisterScreen
-import za.hendrikdelange.mycompletefitnesstracker.ui.dashboard.DashboardScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.splash.SplashScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.profile.ProfileCheckScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.profile.ProfileSetupScreen
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import za.hendrikdelange.mycompletefitnesstracker.viewmodel.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
-import androidx.compose.material3.Text
-
-
+import za.hendrikdelange.mycompletefitnesstracker.core.navigation.MainScreen
 @Composable
 fun AppNavigation() {
 
@@ -185,7 +177,7 @@ fun AppNavigation() {
 
         }
         composable(Screen.Dashboard.route) {
-            DashboardScreen()
+            MainScreen()
         }
 
     }

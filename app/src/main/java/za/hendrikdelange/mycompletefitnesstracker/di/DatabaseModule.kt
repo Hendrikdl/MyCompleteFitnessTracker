@@ -7,10 +7,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.ExerciseDao
 import javax.inject.Singleton
 import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.MeasurementDao
 import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.ProfileDao
-import za.hendrikdelange.mycompletefitnesstracker.data.local.database.MyCompleteFitnessTrackerDatabase
+import za.hendrikdelange.mycompletefitnesstracker.data.local.database.FitnessDatabase
 
 
 @Module
@@ -22,11 +23,11 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context
-    ): MyCompleteFitnessTrackerDatabase {
+    ): FitnessDatabase {
 
         return Room.databaseBuilder(
             context,
-            MyCompleteFitnessTrackerDatabase::class.java,
+            FitnessDatabase::class.java,
             "fitness_database"
         )
             .fallbackToDestructiveMigration()
@@ -37,17 +38,24 @@ object DatabaseModule {
 
     @Provides
     fun provideProfileDao(
-        database: MyCompleteFitnessTrackerDatabase
+        database: FitnessDatabase
     ): ProfileDao {
 
         return database.profileDao()
 
     }
 
+    @Provides
+    fun provideExerciseDao(
+        database: FitnessDatabase
+    ): ExerciseDao {
+        return database.exerciseDao()
+    }
+
 
     @Provides
     fun provideMeasurementDao(
-        database: MyCompleteFitnessTrackerDatabase
+        database: FitnessDatabase
     ): MeasurementDao {
 
         return database.measurementDao()

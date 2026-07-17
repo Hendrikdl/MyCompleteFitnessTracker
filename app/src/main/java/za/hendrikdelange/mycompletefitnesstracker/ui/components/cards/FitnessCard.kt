@@ -1,5 +1,6 @@
 package za.hendrikdelange.mycompletefitnesstracker.ui.components.cards
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
@@ -11,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.Shapes
 import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.Colors
 import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.Spacing
-
+import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
 
 
 @Composable
@@ -27,11 +28,19 @@ fun FitnessCard(
 
         modifier = modifier,
 
-        shape = Shapes.Medium,
+        shape = FitnessDesign.shapes.Medium,
+
+        border = BorderStroke(
+
+            1.dp,
+
+            FitnessDesign.colors.Primary
+
+        ),
 
         colors = CardDefaults.cardColors(
 
-            containerColor = Colors.Card
+            containerColor = FitnessDesign.colors.Card
 
         ),
 
@@ -47,7 +56,7 @@ fun FitnessCard(
 
             modifier = Modifier.padding(
 
-                Spacing.Medium
+                FitnessDesign.spacing.Medium
 
             ),
 
@@ -56,5 +65,4 @@ fun FitnessCard(
         )
 
     }
-
 }

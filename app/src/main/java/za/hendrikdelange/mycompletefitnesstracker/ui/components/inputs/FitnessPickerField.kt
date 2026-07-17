@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,51 +25,72 @@ fun FitnessPickerField(
     modifier: Modifier = Modifier
 ) {
 
-    OutlinedTextField(
-
-        value = value,
-
-        onValueChange = {},
-
-        readOnly = true,
+    OutlinedCard(
 
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick() },
+            .clickable {
+                onClick()
+            }
 
-        label = {
-            Text(label)
-        },
+    ) {
 
-        trailingIcon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = null
+        Text(
+
+            text = label,
+
+            style = MaterialTheme.typography.labelMedium,
+
+            color = FitnessDesign.colors.TextSecondary,
+
+            modifier = Modifier.padding(
+                start = 16.dp,
+                top = 12.dp,
+                end = 16.dp
             )
-        },
-
-        placeholder = {
-            Text("Select...")
-        },
-
-        colors = OutlinedTextFieldDefaults.colors(
-
-            focusedTextColor = FitnessDesign.colors.TextPrimary,
-            unfocusedTextColor = FitnessDesign.colors.TextPrimary,
-
-            focusedContainerColor = FitnessDesign.colors.Card,
-            unfocusedContainerColor = FitnessDesign.colors.Card,
-
-            focusedBorderColor = FitnessDesign.colors.Primary,
-            unfocusedBorderColor = FitnessDesign.colors.Border,
-
-            focusedLabelColor = FitnessDesign.colors.Primary,
-            unfocusedLabelColor = FitnessDesign.colors.TextSecondary,
-
-            cursorColor = FitnessDesign.colors.Primary
 
         )
 
-    )
+        Row(
+
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+
+            horizontalArrangement = Arrangement.SpaceBetween,
+
+            verticalAlignment = Alignment.CenterVertically
+
+        ) {
+
+            Text(
+
+                text =
+                    if (value.isBlank())
+                        "Select..."
+                    else
+                        value,
+
+                color =
+                    if (value.isBlank())
+                        FitnessDesign.colors.TextSecondary
+                    else
+                        FitnessDesign.colors.TextPrimary
+
+            )
+
+            Icon(
+
+                imageVector = icon,
+
+                contentDescription = null,
+
+                tint = FitnessDesign.colors.Primary
+
+            )
+
+        }
+
+    }
 
 }
