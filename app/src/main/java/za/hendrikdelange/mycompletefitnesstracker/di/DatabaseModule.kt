@@ -11,6 +11,9 @@ import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.ExerciseDao
 import javax.inject.Singleton
 import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.MeasurementDao
 import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.ProfileDao
+import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.WorkoutExerciseDao
+import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.WorkoutPlanDao
+import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.WorkoutSetDao
 import za.hendrikdelange.mycompletefitnesstracker.data.local.database.FitnessDatabase
 
 
@@ -59,6 +62,33 @@ object DatabaseModule {
     ): MeasurementDao {
 
         return database.measurementDao()
+
+    }
+
+    @Provides
+    fun provideWorkoutPlanDao(
+        database: FitnessDatabase
+    ): WorkoutPlanDao {
+
+        return database.workoutPlanDao()
+
+    }
+
+    @Provides
+    fun provideWorkoutExerciseDao(
+        database: FitnessDatabase
+    ): WorkoutExerciseDao {
+
+        return database.workoutExerciseDao()
+
+    }
+
+    @Provides
+    fun provideWorkoutSetDao(
+        database: FitnessDatabase
+    ): WorkoutSetDao {
+
+        return database.workoutSetDao()
 
     }
 
