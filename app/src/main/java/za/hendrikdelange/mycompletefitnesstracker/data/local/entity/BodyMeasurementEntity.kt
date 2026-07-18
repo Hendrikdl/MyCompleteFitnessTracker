@@ -38,6 +38,10 @@ data class BodyMeasurementEntity(
 
     val bicepLeftCm: Double? = null,
 
-    val bicepRightCm: Double? = null
+    val bicepRightCm: Double? = null,
+
+    val lastModified: Long = System.currentTimeMillis(),
+
+    val needsSync: Boolean = true
 
 )

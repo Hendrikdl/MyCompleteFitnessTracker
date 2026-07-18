@@ -38,5 +38,9 @@ data class WorkoutSetEntity(
 
     val targetWeight: Double = 0.0,
 
-    val restSeconds: Int = 90
+    val restSeconds: Int = 90,
+
+    val lastModified: Long = System.currentTimeMillis(),
+
+    val needsSync: Boolean = true
 )

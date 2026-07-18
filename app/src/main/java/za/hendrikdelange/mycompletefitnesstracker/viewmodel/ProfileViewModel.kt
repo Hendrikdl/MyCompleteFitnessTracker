@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import za.hendrikdelange.mycompletefitnesstracker.core.sync.SyncManager
 import javax.inject.Inject
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.BodyMeasurementEntity
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ProfileEntity
@@ -14,7 +15,9 @@ import za.hendrikdelange.mycompletefitnesstracker.data.repository.ProfileReposit
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val repository: ProfileRepository
+    private val repository: ProfileRepository,
+    private val syncManager: SyncManager
+
 ) : ViewModel() {
 
 
@@ -178,6 +181,16 @@ class ProfileViewModel @Inject constructor(
             heightCm.value.isNotBlank() &&
                     weightKg.value.isNotBlank()
 
+
+    fun syncNow() {
+
+        viewModelScope.launch {
+
+            syncManager.synchronize()
+
+        }
+
+    }
 
     fun saveProfile(
         firebaseUid: String,

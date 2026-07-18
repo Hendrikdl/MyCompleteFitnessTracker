@@ -17,5 +17,9 @@ data class WorkoutPlanEntity(
 
     val created: Long = System.currentTimeMillis(),
 
-    val updated: Long = System.currentTimeMillis()
+    val updated: Long = System.currentTimeMillis(),
+
+    val lastModified: Long = System.currentTimeMillis(),
+
+    val needsSync: Boolean = true
 )

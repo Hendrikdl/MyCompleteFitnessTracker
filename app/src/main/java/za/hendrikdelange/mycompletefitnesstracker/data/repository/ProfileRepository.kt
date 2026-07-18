@@ -1,5 +1,6 @@
 package za.hendrikdelange.mycompletefitnesstracker.data.repository
 
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,7 +13,8 @@ import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ProfileEntit
 @Singleton
 class ProfileRepository @Inject constructor(
     private val profileDao: ProfileDao,
-    private val measurementDao: MeasurementDao
+    private val measurementDao: MeasurementDao,
+    private val firestore: FirebaseFirestore
 ) {
 
 
@@ -23,6 +25,33 @@ class ProfileRepository @Inject constructor(
         return profileDao.getProfile(uid)
 
     }
+
+    suspend fun getProfilesNeedingSync(): List<ProfileEntity> {
+
+        return profileDao.getProfilesNeedingSync()
+
+    }
+
+    suspend fun markProfileSynced(
+        uid: String
+    ) {
+
+        profileDao.markProfileSynced(uid)
+
+    }
+
+    suspend fun downloadProfile(
+        uid: String
+    ): Boolean {
+
+        // TODO:
+        // Download profile from Firestore
+        // Save it to Room
+
+        return false
+
+    }
+
 
 
     suspend fun saveProfile(

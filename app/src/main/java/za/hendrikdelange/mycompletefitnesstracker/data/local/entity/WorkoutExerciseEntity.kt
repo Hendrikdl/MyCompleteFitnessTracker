@@ -51,6 +51,10 @@ data class WorkoutExerciseEntity(
 
     val restSeconds: Int = 60,
 
+    val lastModified: Long = System.currentTimeMillis(),
+
+    val needsSync: Boolean = true,
+
     val isConfigured: Boolean = false
 
 )

@@ -11,6 +11,20 @@ import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ProfileEntit
 @Dao
 interface ProfileDao {
 
+    @Query("""
+    SELECT *
+    FROM profiles
+    WHERE needsSync = 1
+""")
+    suspend fun getProfilesNeedingSync(): List<ProfileEntity>
+
+    @Query("""
+    UPDATE profiles
+    SET needsSync = 0
+    WHERE firebaseUid = :uid
+""")
+    suspend fun markProfileSynced(uid: String)
+
 
     @Insert(
         onConflict = OnConflictStrategy.REPLACE

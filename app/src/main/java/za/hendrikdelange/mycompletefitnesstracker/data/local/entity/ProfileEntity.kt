@@ -28,6 +28,10 @@ data class ProfileEntity(
 
     val workoutLocation: String,
 
+    val lastModified: Long = System.currentTimeMillis(),
+
+    val needsSync: Boolean = true,
+
     val createdDate: Long = System.currentTimeMillis()
 
 )
