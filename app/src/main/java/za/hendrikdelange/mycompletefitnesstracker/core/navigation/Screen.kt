@@ -4,7 +4,13 @@ package za.hendrikdelange.mycompletefitnesstracker.core.navigation
 sealed class Screen(
     val route: String
 ) {
+    object WorkoutDetail : Screen("workout_detail/{workoutId}") {
 
+        fun createRoute(
+            workoutId: Long
+        ) = "workout_detail/$workoutId"
+
+    }
 
     object Splash : Screen("splash")
 

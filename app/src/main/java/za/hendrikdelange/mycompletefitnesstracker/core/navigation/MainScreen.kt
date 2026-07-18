@@ -11,6 +11,7 @@ import za.hendrikdelange.mycompletefitnesstracker.ui.exercises.ExerciseScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.home.HomeScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.profile.ProfileScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.progress.ProgressScreen
+import za.hendrikdelange.mycompletefitnesstracker.ui.workouts.WorkoutDetailScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.workouts.WorkoutScreen
 
 @Composable
@@ -58,7 +59,46 @@ fun MainScreen() {
                 NavigationItem.Workouts.route
             ) {
 
-                WorkoutScreen()
+                WorkoutScreen(
+                    onWorkoutClick = {workoutId ->
+                        navController.navigate(
+                            Screen.WorkoutDetail.createRoute(workoutId)
+                        )
+                    }
+                )
+
+            }
+
+            composable(
+
+                route = Screen.WorkoutDetail.route
+
+            ) { backStackEntry ->
+
+                val workoutId = backStackEntry.arguments
+                    ?.getString("workoutId")
+                    ?.toLongOrNull() ?: 0L
+
+                WorkoutDetailScreen(
+
+                    workoutId = workoutId
+
+                )
+
+            }
+
+            composable(
+                "workoutDetail/{workoutId}"
+            ) { backStackEntry ->
+
+                val workoutId =
+                    backStackEntry.arguments
+                        ?.getString("workoutId")
+                        ?.toLongOrNull() ?: 0L
+
+                WorkoutDetailScreen(
+                    workoutId = workoutId
+                )
 
             }
 

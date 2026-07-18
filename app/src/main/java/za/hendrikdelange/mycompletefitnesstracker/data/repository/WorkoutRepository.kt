@@ -54,9 +54,8 @@ class WorkoutRepository @Inject constructor(
 
     }
 
-    fun getExercisesForWorkout(
-        workoutId: Long
-    ) = exerciseDao.getExercisesForWorkout(workoutId)
+
+
 
     suspend fun addSet(
         set: WorkoutSetEntity
@@ -65,6 +64,10 @@ class WorkoutRepository @Inject constructor(
         setDao.insert(set)
 
     }
+
+
+
+
 
     fun getSets(
         workoutExerciseId: Long

@@ -2,7 +2,6 @@ package za.hendrikdelange.mycompletefitnesstracker.ui.workouts
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,15 +21,18 @@ import za.hendrikdelange.mycompletefitnesstracker.ui.components.cards.WorkoutCar
 import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
 import za.hendrikdelange.mycompletefitnesstracker.viewmodel.WorkoutViewModel
 import androidx.compose.runtime.setValue
-import za.hendrikdelange.mycompletefitnesstracker.data.model.WorkoutCategory
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.dialogs.CreateWorkoutPlanDialog
+import androidx.navigation.NavHostController
+
 
 @Composable
 fun WorkoutScreen(
 
+    onWorkoutClick: (Long) -> Unit,
+
     viewModel: WorkoutViewModel = hiltViewModel()
 
-) {
+)  {
 
     val workouts by viewModel.workouts.collectAsState()
     var showCreateDialog by remember {
@@ -87,8 +89,13 @@ fun WorkoutScreen(
 
                 WorkoutCard(
 
-                    workout = workout
+                    workout = workout,
 
+                    onClick = {
+
+                      onWorkoutClick(workout.id)
+
+                    }
                 )
 
             }
@@ -109,7 +116,7 @@ fun WorkoutScreen(
                     viewModel.createWorkout(
 
                         name = name,
-                        category = WorkoutCategory.PUSH,
+                        category = category,
                         dayOfWeek = dayOfWeek
 
 

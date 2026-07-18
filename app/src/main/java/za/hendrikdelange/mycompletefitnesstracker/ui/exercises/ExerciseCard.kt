@@ -13,7 +13,9 @@ import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
 @Composable
 fun ExerciseCard(
 
-    exercise: ExerciseEntity
+    exercise: ExerciseEntity,
+    modifier: Modifier = Modifier,
+    onClick: () ->Unit ={}
 
 ) {
 

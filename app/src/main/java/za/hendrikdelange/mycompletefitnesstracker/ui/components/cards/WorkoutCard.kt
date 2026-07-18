@@ -1,5 +1,6 @@
 package za.hendrikdelange.mycompletefitnesstracker.ui.components.cards
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,10 +21,11 @@ fun WorkoutCard(
 
     FitnessCard(
 
-        modifier = modifier
+        modifier = modifier.clickable {
+            onClick()
+        }
 
     ) {
-
         Column(
 
             verticalArrangement =

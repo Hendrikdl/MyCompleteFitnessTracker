@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ExerciseEntity
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.cards.ExerciseLibraryHeader
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.input.FitnessSearchBar
 import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
@@ -20,9 +21,10 @@ import za.hendrikdelange.mycompletefitnesstracker.viewmodel.ExerciseViewModel
 @Composable
 fun ExerciseScreen(
 
-    viewModel: ExerciseViewModel = hiltViewModel()
+    viewModel: ExerciseViewModel = hiltViewModel(),
+    onExerciseClick: (ExerciseEntity) -> Unit = {},
 
-) {
+    ) {
 
     val search by viewModel.searchText.collectAsState()
 
@@ -66,7 +68,12 @@ fun ExerciseScreen(
             items(exercises) { exercise ->
 
                 ExerciseCard(
-                    exercise = exercise
+                    exercise = exercise,
+                    onClick = {
+
+                        onExerciseClick(exercise)
+
+                    }
                 )
 
             }
