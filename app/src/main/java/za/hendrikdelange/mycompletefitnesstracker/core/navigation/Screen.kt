@@ -12,6 +12,22 @@ sealed class Screen(
 
     }
 
+    object ExerciseSetup : Screen("exercise_setup/{workoutExerciseId}") {
+
+        fun createRoute(
+            workoutExerciseId: Long
+        ) = "exercise_setup/$workoutExerciseId"
+
+    }
+
+    object ExercisePicker : Screen("exercise_picker/{workoutId}") {
+
+        fun createRoute(
+            workoutId: Long
+        ) = "exercise_picker/$workoutId"
+
+    }
+
     object Splash : Screen("splash")
 
 

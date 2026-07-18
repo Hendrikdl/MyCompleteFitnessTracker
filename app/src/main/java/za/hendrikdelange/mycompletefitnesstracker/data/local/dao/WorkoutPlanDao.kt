@@ -29,13 +29,13 @@ interface WorkoutPlanDao {
     """)
     fun getAllWorkouts(): Flow<List<WorkoutPlanEntity>>
 
-    @Query("""
-        SELECT *
-        FROM workout_plans
-        WHERE id = :id
-    """)
-    suspend fun getWorkoutById(
-        id: Long
-    ): WorkoutPlanEntity?
+
+
+    @Query(
+        "SELECT * FROM workout_plans WHERE id = :workoutId"
+    )
+    fun getWorkoutById(
+        workoutId: Long
+    ): Flow<WorkoutPlanEntity?>
 
 }

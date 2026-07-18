@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -11,13 +12,16 @@ import za.hendrikdelange.mycompletefitnesstracker.ui.exercises.ExerciseScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.home.HomeScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.profile.ProfileScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.progress.ProgressScreen
+import za.hendrikdelange.mycompletefitnesstracker.ui.workouts.ExercisePickerScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.workouts.WorkoutDetailScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.workouts.WorkoutScreen
+import za.hendrikdelange.mycompletefitnesstracker.viewmodel.WorkoutViewModel
 
 @Composable
 fun MainScreen() {
 
     val navController = rememberNavController()
+    val workoutViewModel: WorkoutViewModel = hiltViewModel()
 
     Scaffold(
 
@@ -56,6 +60,37 @@ fun MainScreen() {
             }
 
             composable(
+                Screen.ExercisePicker.route
+            ) { backStackEntry ->
+
+                val workoutId =
+                    backStackEntry.arguments
+                        ?.getString("workoutId")
+                        ?.toLong() ?: return@composable
+
+                ExercisePickerScreen(
+
+                    workoutId = workoutId,
+
+                    onExerciseSelected = { exerciseId ->
+
+                        workoutViewModel.addExerciseToWorkout(
+
+                            workoutId = workoutId,
+
+                            exerciseId = exerciseId.toLong()
+
+                        )
+
+                        navController.popBackStack()
+
+                    }
+
+                )
+
+            }
+
+            composable(
                 NavigationItem.Workouts.route
             ) {
 
@@ -81,26 +116,13 @@ fun MainScreen() {
 
                 WorkoutDetailScreen(
 
-                    workoutId = workoutId
+                    workoutId = workoutId,
+                    navController = navController
 
                 )
 
             }
 
-            composable(
-                "workoutDetail/{workoutId}"
-            ) { backStackEntry ->
-
-                val workoutId =
-                    backStackEntry.arguments
-                        ?.getString("workoutId")
-                        ?.toLongOrNull() ?: 0L
-
-                WorkoutDetailScreen(
-                    workoutId = workoutId
-                )
-
-            }
 
             composable(
                 NavigationItem.Progress.route
@@ -121,5 +143,7 @@ fun MainScreen() {
         }
 
     }
+
+
 
 }

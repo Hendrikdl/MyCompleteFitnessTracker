@@ -62,5 +62,38 @@ class WorkoutViewModel @Inject constructor(
 
     }
 
+    fun addExerciseToWorkout(
+
+        workoutId: Long,
+
+        exerciseId: Long
+
+    ) {
+
+        viewModelScope.launch {
+
+            repository.addExerciseToWorkout(
+
+                workoutId,
+
+                exerciseId
+
+            )
+
+        }
+
+    }
+
+    fun getExercisesForWorkout(
+
+        workoutId: Long
+
+    ) = repository.getExercisesForWorkout(workoutId)
+
+    fun getWorkout(
+
+        workoutId: Long
+
+    ) = repository.getWorkoutById(workoutId)
 
 }

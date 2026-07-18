@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey
         ForeignKey(
             entity = WorkoutPlanEntity::class,
             parentColumns = ["id"],
-            childColumns = ["planId"],
+            childColumns = ["planId"],      // <-- changed
             onDelete = ForeignKey.CASCADE
         ),
 
@@ -26,7 +26,7 @@ import androidx.room.PrimaryKey
     ],
 
     indices = [
-        Index("planId"),
+        Index("planId"),                    // <-- changed
         Index("exerciseId")
     ]
 )
@@ -39,5 +39,18 @@ data class WorkoutExerciseEntity(
 
     val exerciseId: Int,
 
-    val orderIndex: Int
+    val orderIndex: Int = 0,
+
+    val sets: Int = 0,
+
+    val repsFrom: Int = 0,
+
+    val repsTo: Int = 0,
+
+    val weight: Double = 0.0,
+
+    val restSeconds: Int = 60,
+
+    val isConfigured: Boolean = false
+
 )
