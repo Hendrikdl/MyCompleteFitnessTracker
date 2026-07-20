@@ -15,7 +15,32 @@ interface WorkoutPlanDao {
     @Update
     suspend fun update(
         workout: WorkoutPlanEntity
-    )
+   )
+
+    @Query("""
+SELECT *
+FROM workout_plans
+WHERE syncId = :syncId
+LIMIT 1
+""")
+    suspend fun getBySyncId(
+        syncId: String
+    ): WorkoutPlanEntity?
+
+
+    @Query("""
+SELECT *
+FROM workout_plans
+WHERE needsSync = 1
+""")
+    suspend fun getPlansNeedingSync(): List<WorkoutPlanEntity>
+
+    @Query("""
+UPDATE workout_plans
+SET needsSync = 0
+WHERE id = :id
+""")
+    suspend fun markPlanSynced(id: Long)
 
     @Delete
     suspend fun delete(

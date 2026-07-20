@@ -1,10 +1,4 @@
-package za.hendrikdelange.mycompletefitnesstracker.data.remote.dto
-
-import za.hendrikdelange.mycompletefitnesstracker.data.local.remote.dto.CategoryDto
-import za.hendrikdelange.mycompletefitnesstracker.data.local.remote.dto.EquipmentDto
-import za.hendrikdelange.mycompletefitnesstracker.data.local.remote.dto.ImageDto
-import za.hendrikdelange.mycompletefitnesstracker.data.local.remote.dto.MuscleDto
-import za.hendrikdelange.mycompletefitnesstracker.data.local.remote.dto.TranslationDto
+package za.hendrikdelange.mycompletefitnesstracker.data.local.remote.dto
 
 data class ExerciseDto(
 

@@ -26,7 +26,7 @@ import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.WorkoutSetEn
         WorkoutExerciseEntity::class,
         WorkoutSetEntity::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = true
 )
 abstract class FitnessDatabase : RoomDatabase() {

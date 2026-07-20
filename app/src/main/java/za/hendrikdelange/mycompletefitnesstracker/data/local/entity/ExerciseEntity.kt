@@ -27,6 +27,8 @@ data class ExerciseEntity(
 
     val gifUrl: String?,
 
+    val localImagePath: String? = null,
+
     val isCustom: Boolean = false,
 
     val isFavorite: Boolean = false,

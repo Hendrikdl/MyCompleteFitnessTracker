@@ -2,6 +2,7 @@ package za.hendrikdelange.mycompletefitnesstracker.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import za.hendrikdelange.mycompletefitnesstracker.core.sync.SyncIds
 
 
 @Entity(
@@ -11,6 +12,8 @@ data class BodyMeasurementEntity(
 
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+
+    val syncId: String = SyncIds.newId(),
 
     val firebaseUid: String,
 

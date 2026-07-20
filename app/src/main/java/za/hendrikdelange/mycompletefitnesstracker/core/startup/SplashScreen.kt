@@ -1,4 +1,4 @@
-package za.hendrikdelange.mycompletefitnesstracker.ui.startup
+package za.hendrikdelange.mycompletefitnesstracker.core.startup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,16 +11,39 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import za.hendrikdelange.mycompletefitnesstracker.core.startup.StartupViewModel
+import androidx.compose.runtime.LaunchedEffect
+import za.hendrikdelange.mycompletefitnesstracker.core.startup.StartupResult
+import za.hendrikdelange.mycompletefitnesstracker.viewmodel.StartupViewModel
 
 @Composable
 fun SplashScreen(
+
+    onFinished: (StartupResult) -> Unit,
 
     viewModel: StartupViewModel = hiltViewModel()
 
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val result by viewModel.result.collectAsStateWithLifecycle()
+
+    // Start startup sequence once
+    LaunchedEffect(Unit) {
+
+        viewModel.start()
+
+    }
+
+    // Navigate when startup completes
+    LaunchedEffect(result) {
+
+        result?.let {
+
+            onFinished(it)
+
+        }
+
+    }
 
     Column(
 

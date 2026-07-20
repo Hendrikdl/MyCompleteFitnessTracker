@@ -7,11 +7,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import za.hendrikdelange.mycompletefitnesstracker.ui.auth.LoginScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.auth.RegisterScreen
-import za.hendrikdelange.mycompletefitnesstracker.ui.splash.SplashScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.profile.ProfileCheckScreen
 import za.hendrikdelange.mycompletefitnesstracker.ui.profile.ProfileSetupScreen
 import com.google.firebase.auth.FirebaseAuth
+import za.hendrikdelange.mycompletefitnesstracker.core.startup.SplashScreen
 import za.hendrikdelange.mycompletefitnesstracker.core.navigation.MainScreen
+import za.hendrikdelange.mycompletefitnesstracker.core.startup.StartupResult
+import za.hendrikdelange.mycompletefitnesstracker.ui.exercises.ExerciseDetailsScreen
+
 @Composable
 fun AppNavigation() {
 
@@ -101,32 +104,51 @@ fun AppNavigation() {
 
             SplashScreen(
 
-                onFinished = { loggedIn ->
+                onFinished = { result ->
 
-                    if (loggedIn) {
+                    when (result) {
 
-                        navController.navigate(
-                            Screen.ProfileCheck.route
-                        ) {
+                        StartupResult.GoToLogin -> {
 
-                            popUpTo(
-                                Screen.Splash.route
+                            navController.navigate(
+                                Screen.Login.route
                             ) {
-                                inclusive = true
+
+                                popUpTo(Screen.Splash.route) {
+                                    inclusive = true
+                                }
+
                             }
 
                         }
 
-                    } else {
+                        StartupResult.GoToProfileCheck -> {
 
-                        navController.navigate(
-                            Screen.Login.route
-                        ) {
-
-                            popUpTo(
-                                Screen.Splash.route
+                            navController.navigate(
+                                Screen.ProfileCheck.route
                             ) {
-                                inclusive = true
+
+                                popUpTo(Screen.Splash.route) {
+                                    inclusive = true
+                                }
+
+                            }
+
+                        }
+
+                        is StartupResult.Error -> {
+
+                            // We'll improve this later.
+                            // For now just send the user to Login.
+
+                            navController.navigate(
+                                Screen.Login.route
+                            ) {
+
+                                popUpTo(Screen.Splash.route) {
+                                    inclusive = true
+                                }
+
                             }
 
                         }
@@ -139,6 +161,8 @@ fun AppNavigation() {
 
         }
 
+
+
         composable(Screen.Login.route) {
 
             LoginScreen(
@@ -146,8 +170,14 @@ fun AppNavigation() {
                 onLoginSuccess = {
 
                     navController.navigate(
-                        Screen.ProfileCheck.route
-                    )
+                        Screen.Splash.route
+                    ) {
+
+                        popUpTo(Screen.Login.route) {
+                            inclusive = true
+                        }
+
+                    }
 
                 },
 
@@ -176,6 +206,21 @@ fun AppNavigation() {
             )
 
         }
+
+        composable(
+            route = "exerciseDetails/{exerciseId}"
+        ) {
+
+            val exerciseId =
+                it.arguments
+                    ?.getString("exerciseId")
+                    ?.toInt()
+
+            ExerciseDetailsScreen(
+                exerciseId = exerciseId!!
+            )
+        }
+
         composable(Screen.Dashboard.route) {
             MainScreen()
         }

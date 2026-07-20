@@ -1,21 +1,17 @@
 package za.hendrikdelange.mycompletefitnesstracker.data.repository
 
 import kotlinx.coroutines.flow.Flow
+import za.hendrikdelange.mycompletefitnesstracker.core.sync.SyncCoordinator
 import javax.inject.Inject
-import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.WorkoutExerciseDao
 import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.WorkoutPlanDao
 import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.WorkoutSetDao
-import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.WorkoutExerciseEntity
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.WorkoutPlanEntity
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.WorkoutSetEntity
 
 class WorkoutRepository @Inject constructor(
 
     private val workoutDao: WorkoutPlanDao,
-
-    private val exerciseDao: WorkoutExerciseDao,
-
-    private val setDao: WorkoutSetDao
+    private val setDao: WorkoutSetDao,
 
 ) {
 
@@ -30,11 +26,47 @@ class WorkoutRepository @Inject constructor(
 
     }
 
+    suspend fun mergeFromCloud(
+        plan: WorkoutPlanEntity
+    ) {
+
+        val existing =
+            workoutDao.getBySyncId(plan.syncId)
+
+        if (existing == null) {
+
+            workoutDao.insert(
+
+                plan.copy(
+                    needsSync = false
+                )
+
+            )
+
+        } else {
+
+            workoutDao.update(
+
+                plan.copy(
+
+                    id = existing.id,
+
+                    needsSync = false
+
+                )
+
+            )
+
+        }
+
+    }
+
     suspend fun updateWorkout(
         workout: WorkoutPlanEntity
     ) {
 
         workoutDao.update(workout)
+
 
     }
 
@@ -44,44 +76,22 @@ class WorkoutRepository @Inject constructor(
 
         workoutDao.delete(workout)
 
-    }
-
-    suspend fun addExercise(
-        exercise: WorkoutExerciseEntity
-    ) {
-
-        exerciseDao.insert(exercise)
 
     }
 
-    suspend fun addExerciseToWorkout(
 
-        workoutId: Long,
 
-        exerciseId: Long
 
-    ) {
 
-        exerciseDao.insert(
+    suspend fun getPlansNeedingSync() =
+        workoutDao.getPlansNeedingSync()
 
-            WorkoutExerciseEntity(
+    suspend fun markPlanSynced(id: Long) =
+        workoutDao.markPlanSynced(id)
 
-                planId = workoutId,
+    suspend fun upsertPlan(plan: WorkoutPlanEntity) =
+        workoutDao.insert(plan)
 
-                exerciseId = exerciseId.toInt(),
-
-                orderIndex = 0
-
-            )
-
-        )
-
-    }
-
-    fun getExercisesForWorkout(
-        workoutId: Long
-    ) =
-        exerciseDao.getExercisesForWorkout(workoutId)
 
     fun getWorkoutById(
         workoutId: Long

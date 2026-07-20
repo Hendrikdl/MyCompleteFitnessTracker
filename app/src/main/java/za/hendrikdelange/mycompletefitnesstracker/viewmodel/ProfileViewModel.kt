@@ -239,6 +239,7 @@ class ProfileViewModel @Inject constructor(
 
 
             repository.saveMeasurement(measurement)
+            syncManager.synchronize()
 
 
             onSaved()

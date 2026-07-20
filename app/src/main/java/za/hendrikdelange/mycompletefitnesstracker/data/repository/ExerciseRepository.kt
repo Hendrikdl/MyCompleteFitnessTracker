@@ -1,12 +1,13 @@
 package za.hendrikdelange.mycompletefitnesstracker.data.repository
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.ExerciseDao
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ExerciseEntity
 import za.hendrikdelange.mycompletefitnesstracker.data.remote.ExerciseRemoteDataSource
-import za.hendrikdelange.mycompletefitnesstracker.data.remote.mapper.toEntity
-import android.util.Log
+import za.hendrikdelange.mycompletefitnesstracker.data.local.remote.mapper.toEntity
+import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.WorkoutExerciseDao
 
 class ExerciseRepository @Inject constructor(
 
@@ -14,18 +15,26 @@ class ExerciseRepository @Inject constructor(
 
     private val dao: ExerciseDao,
 
+    private val exerciseDao: WorkoutExerciseDao,
 
-) {
+
+    ) {
     private  val MIN_EXERCISES = 1000
+
+    suspend fun getExercisesNeedingSync() =
+        exerciseDao.getExercisesNeedingSync()
+
+    suspend fun markExercisesSynced(id: Long) =
+        exerciseDao.markExercisesSynced(id)
 
 
     fun getExercises(): Flow<List<ExerciseEntity>> {
 
         return dao.getAllExercises()
-
     }
 
     fun observeExerciseCount(): Flow<Int> {
+
         return dao.observeExerciseCount()
     }
 
@@ -91,5 +100,37 @@ class ExerciseRepository @Inject constructor(
 
         dao.insertAll(allExercises)
 
+        Log.d(
+            "EXERCISE_SYNC",
+            "Inserted ${allExercises.size} exercises into Room"
+        )
+
+        Log.d(
+            "EXERCISE_SYNC",
+            "Database now contains ${dao.getCount()} exercises"
+        )
+
     }
+
+    suspend fun updateLocalImagePath(
+        id: Int,
+        path: String
+    ) {
+
+        dao.updateLocalImagePath(
+            id,
+            path
+        )
+
+    }
+
+    fun getExerciseById(
+        id: Int
+    ) =
+        dao.getExerciseById(id)
+
+    fun getExercise(
+        exerciseId: Int
+    ): Flow<ExerciseEntity?> =
+        dao.getExerciseById(exerciseId)
 }

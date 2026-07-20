@@ -2,31 +2,32 @@ package za.hendrikdelange.mycompletefitnesstracker.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import za.hendrikdelange.mycompletefitnesstracker.core.sync.SyncIds
 
 
-@Entity(
-    tableName = "profiles"
-)
+@Entity(tableName = "profiles")
 data class ProfileEntity(
 
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
 
-    val firebaseUid: String,
+    val syncId: String = SyncIds.newId(),
 
-    val firstName: String,
+    val firebaseUid: String = "",
 
-    val surname: String,
+    val firstName: String = "",
 
-    val dateOfBirth: String,
+    val surname: String = "",
 
-    val gender: String,
+    val dateOfBirth: String = "",
 
-    val fitnessGoal: String,
+    val gender: String = "",
 
-    val experienceLevel: String,
+    val fitnessGoal: String = "",
 
-    val workoutLocation: String,
+    val experienceLevel: String = "",
+
+    val workoutLocation: String = "",
 
     val lastModified: Long = System.currentTimeMillis(),
 

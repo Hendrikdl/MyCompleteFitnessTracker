@@ -2,6 +2,7 @@ package za.hendrikdelange.mycompletefitnesstracker.data.repository
 
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
+import za.hendrikdelange.mycompletefitnesstracker.core.sync.SyncCoordinator
 import javax.inject.Inject
 import javax.inject.Singleton
 import za.hendrikdelange.mycompletefitnesstracker.data.local.dao.MeasurementDao
@@ -14,7 +15,8 @@ import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ProfileEntit
 class ProfileRepository @Inject constructor(
     private val profileDao: ProfileDao,
     private val measurementDao: MeasurementDao,
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+
 ) {
 
 
@@ -32,11 +34,21 @@ class ProfileRepository @Inject constructor(
 
     }
 
+    suspend fun upsertProfile(
+        profile: ProfileEntity
+    ) {
+
+        profileDao.insert(profile)
+
+
+    }
+
     suspend fun markProfileSynced(
         uid: String
     ) {
 
         profileDao.markProfileSynced(uid)
+
 
     }
 
@@ -77,6 +89,7 @@ class ProfileRepository @Inject constructor(
     ) {
 
         measurementDao.insertMeasurement(measurement)
+
 
     }
 

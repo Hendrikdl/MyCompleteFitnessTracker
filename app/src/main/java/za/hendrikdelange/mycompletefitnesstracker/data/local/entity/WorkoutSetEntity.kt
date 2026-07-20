@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import za.hendrikdelange.mycompletefitnesstracker.core.sync.SyncIds
 
 @Entity(
     tableName = "workout_sets",
@@ -27,6 +28,8 @@ data class WorkoutSetEntity(
 
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+
+    val syncId: String = SyncIds.newId(),
 
     val workoutExerciseId: Long,
 

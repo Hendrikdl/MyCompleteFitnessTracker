@@ -2,24 +2,30 @@ package za.hendrikdelange.mycompletefitnesstracker.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import za.hendrikdelange.mycompletefitnesstracker.core.sync.SyncCoordinator
 import javax.inject.Inject
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.WorkoutPlanEntity
 import za.hendrikdelange.mycompletefitnesstracker.data.model.WorkoutCategory
+import za.hendrikdelange.mycompletefitnesstracker.data.repository.WorkoutExerciseRepository
 import za.hendrikdelange.mycompletefitnesstracker.data.repository.WorkoutRepository
 
 @HiltViewModel
 class WorkoutViewModel @Inject constructor(
 
-    private val repository: WorkoutRepository
+    private val workoutRepository: WorkoutRepository,
+    private val workoutExerciseRepository: WorkoutExerciseRepository,
+    private val auth: FirebaseAuth,
+    private val syncCoordinator: SyncCoordinator
 
 ) : ViewModel() {
 
     val workouts =
-        repository
+        workoutRepository
             .getWorkouts()
             .stateIn(
 
@@ -44,9 +50,13 @@ class WorkoutViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            repository.createWorkout(
+            val uid = auth.currentUser?.uid ?: return@launch
+
+            workoutRepository.createWorkout(
 
                 WorkoutPlanEntity(
+
+                    firebaseUid = uid,
 
                     name = name,
 
@@ -59,7 +69,7 @@ class WorkoutViewModel @Inject constructor(
             )
 
         }
-
+        syncCoordinator.requestSync()
     }
 
     fun addExerciseToWorkout(
@@ -72,14 +82,14 @@ class WorkoutViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-            repository.addExerciseToWorkout(
+            workoutExerciseRepository.addExerciseToWorkout(
 
                 workoutId,
 
                 exerciseId
 
             )
-
+            syncCoordinator.requestSync()
         }
 
     }
@@ -88,12 +98,12 @@ class WorkoutViewModel @Inject constructor(
 
         workoutId: Long
 
-    ) = repository.getExercisesForWorkout(workoutId)
+    ) = workoutExerciseRepository.getExercisesForWorkout(workoutId)
 
     fun getWorkout(
 
         workoutId: Long
 
-    ) = repository.getWorkoutById(workoutId)
+    ) = workoutRepository.getWorkoutById(workoutId)
 
 }

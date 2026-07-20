@@ -1,7 +1,8 @@
-package za.hendrikdelange.mycompletefitnesstracker.data.remote.mapper
+package za.hendrikdelange.mycompletefitnesstracker.data.local.remote.mapper
 
+import android.util.Log
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ExerciseEntity
-import za.hendrikdelange.mycompletefitnesstracker.data.remote.dto.ExerciseDto
+import za.hendrikdelange.mycompletefitnesstracker.data.local.remote.dto.ExerciseDto
 
 fun ExerciseDto.toEntity(): ExerciseEntity {
 
@@ -9,6 +10,17 @@ fun ExerciseDto.toEntity(): ExerciseEntity {
         translations.firstOrNull {
             it.language == 2
         } ?: translations.first()
+
+
+    val mediaUrl =
+        images.firstOrNull()?.image
+
+
+    Log.d(
+        "EXERCISE_IMAGE",
+        mediaUrl ?: "NO IMAGE"
+    )
+
 
     return ExerciseEntity(
 
@@ -30,9 +42,17 @@ fun ExerciseDto.toEntity(): ExerciseEntity {
 
         category = category.name,
 
-        imageUrl = images.firstOrNull()?.image,
+        imageUrl =
+            if (mediaUrl?.endsWith(".gif") == false)
+                mediaUrl
+            else
+                null,
 
-        gifUrl = images.firstOrNull()?.image,
+        gifUrl =
+            if (mediaUrl?.endsWith(".gif") == true)
+                mediaUrl
+            else
+                null,
 
         isCustom = false
 

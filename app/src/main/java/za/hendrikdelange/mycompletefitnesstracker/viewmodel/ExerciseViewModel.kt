@@ -9,12 +9,14 @@ import javax.inject.Inject
 import za.hendrikdelange.mycompletefitnesstracker.data.repository.ExerciseRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import za.hendrikdelange.mycompletefitnesstracker.core.sync.SyncCoordinator
 import za.hendrikdelange.mycompletefitnesstracker.data.model.ExerciseSyncState
 
 @HiltViewModel
 class ExerciseViewModel @Inject constructor(
 
-    private val repository: ExerciseRepository
+    private val repository: ExerciseRepository,
+    private val syncCoordinator: SyncCoordinator
 
 ) : ViewModel() {
 
@@ -114,8 +116,18 @@ class ExerciseViewModel @Inject constructor(
             }
 
         }
-
+        syncCoordinator.requestSync()
     }
+
+    fun getExerciseById(
+        id: Int
+    ) =
+        repository.getExerciseById(id)
+
+    fun getExercise(
+        exerciseId: Int
+    ) =
+        repository.getExercise(exerciseId)
 
     init {
         initializeLibrary()

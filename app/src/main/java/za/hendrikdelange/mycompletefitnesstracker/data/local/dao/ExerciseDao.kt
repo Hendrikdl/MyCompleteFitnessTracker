@@ -6,6 +6,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ExerciseEntity
+import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.WorkoutPlanEntity
+import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.WorkoutExerciseEntity
 
 @Dao
 interface ExerciseDao {
@@ -23,12 +25,14 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercise_library ORDER BY name")
     fun getAllExercises(): Flow<List<ExerciseEntity>>
 
-    @Query("""
+    @Query(
+        """
         SELECT *
         FROM exercise_library
         WHERE name LIKE '%' || :search || '%'
         ORDER BY name
-    """)
+    """
+    )
     fun searchExercises(
         search: String
     ): Flow<List<ExerciseEntity>>
@@ -46,5 +50,25 @@ interface ExerciseDao {
     suspend fun getExerciseCount(): Int
 
 
+    @Query("""
+UPDATE exercise_library
+SET localImagePath = :path
+WHERE id = :id
+""")
+    suspend fun updateLocalImagePath(
+        id: Int,
+        path: String
+    )
+
+
+    @Query("""
+SELECT *
+FROM exercise_library
+WHERE id = :id
+LIMIT 1
+""")
+    fun getExerciseById(
+        id: Int
+    ): Flow<ExerciseEntity?>
 
 }

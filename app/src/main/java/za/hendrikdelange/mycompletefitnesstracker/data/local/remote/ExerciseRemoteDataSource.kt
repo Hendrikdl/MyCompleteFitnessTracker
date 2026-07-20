@@ -1,8 +1,8 @@
 package za.hendrikdelange.mycompletefitnesstracker.data.remote
 
 import javax.inject.Inject
-import za.hendrikdelange.mycompletefitnesstracker.data.remote.api.ExerciseApi
-import za.hendrikdelange.mycompletefitnesstracker.data.remote.dto.ExerciseDto
+import za.hendrikdelange.mycompletefitnesstracker.data.local.remote.api.ExerciseApi
+import za.hendrikdelange.mycompletefitnesstracker.data.local.remote.dto.ExerciseDto
 
 class ExerciseRemoteDataSource @Inject constructor(
     private val api: ExerciseApi

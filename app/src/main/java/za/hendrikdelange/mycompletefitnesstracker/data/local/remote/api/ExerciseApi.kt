@@ -1,4 +1,4 @@
-package za.hendrikdelange.mycompletefitnesstracker.data.remote.api
+package za.hendrikdelange.mycompletefitnesstracker.data.local.remote.api
 
 import retrofit2.http.GET
 import retrofit2.http.Query
