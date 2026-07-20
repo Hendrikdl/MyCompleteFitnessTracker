@@ -12,15 +12,9 @@ fun ExerciseDto.toEntity(): ExerciseEntity {
         } ?: translations.first()
 
 
+
     val mediaUrl =
         images.firstOrNull()?.image
-
-
-    Log.d(
-        "EXERCISE_IMAGE",
-        mediaUrl ?: "NO IMAGE"
-    )
-
 
     return ExerciseEntity(
 
@@ -32,13 +26,9 @@ fun ExerciseDto.toEntity(): ExerciseEntity {
 
         instructions = translation.description,
 
-        muscleGroup = muscles.joinToString {
-            it.name
-        },
+        muscleGroup = muscles.joinToString { it.name },
 
-        equipment = equipment.joinToString {
-            it.name
-        },
+        equipment = equipment.joinToString { it.name },
 
         category = category.name,
 

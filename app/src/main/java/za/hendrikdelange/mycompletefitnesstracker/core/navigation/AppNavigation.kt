@@ -207,19 +207,6 @@ fun AppNavigation() {
 
         }
 
-        composable(
-            route = "exerciseDetails/{exerciseId}"
-        ) {
-
-            val exerciseId =
-                it.arguments
-                    ?.getString("exerciseId")
-                    ?.toInt()
-
-            ExerciseDetailsScreen(
-                exerciseId = exerciseId!!
-            )
-        }
 
         composable(Screen.Dashboard.route) {
             MainScreen()

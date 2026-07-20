@@ -2,14 +2,18 @@ package za.hendrikdelange.mycompletefitnesstracker.ui.exercises
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.chips.FitnessChipGroup
+import za.hendrikdelange.mycompletefitnesstracker.ui.components.display.ExerciseInstructions
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.header.FitnessHeader
 import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
 import za.hendrikdelange.mycompletefitnesstracker.viewmodel.ExerciseDetailsViewModel
@@ -20,11 +24,14 @@ fun ExerciseDetailsScreen(
 
     exerciseId: Int,
 
+    onBackClick: () -> Unit,
+
     viewModel: ExerciseDetailsViewModel = hiltViewModel()
 
 ) {
 
     val exercise by viewModel.exercise.collectAsState(initial = null)
+
 
     exercise?.let { exercise ->
         Column(
@@ -32,9 +39,10 @@ fun ExerciseDetailsScreen(
         ) {
             FitnessHeader(
                 title = "Exercise Details",
-                onBackClick = {
-                    //we'll hook this up next
-                }
+                color = FitnessDesign.colors.Primary,
+                onBackClick =
+                    onBackClick
+
             )
 
             LazyColumn(
@@ -56,9 +64,14 @@ fun ExerciseDetailsScreen(
 
                         text = exercise.name,
 
+                        modifier = Modifier.fillMaxWidth(),
+
+                        textAlign = TextAlign.Center,
+
+
                         style = FitnessDesign.typography.Heading,
 
-                        color = FitnessDesign.colors.TextPrimary
+                        color = FitnessDesign.colors.Primary
 
                     )
 
@@ -74,17 +87,48 @@ fun ExerciseDetailsScreen(
 
                     ) {
 
-                        AsyncImage(
+                        if (exercise.imageUrl != null) {
 
-                            model = exercise.imageUrl,
+                            AsyncImage(
 
-                            contentDescription = exercise.name,
+                                model = exercise.imageUrl,
 
-                            modifier = Modifier
-                                .fillMaxWidth(0.8f)
-                                .height(220.dp)
+                                contentDescription = exercise.name,
 
-                        )
+                                modifier = Modifier
+                                    .fillMaxWidth(0.8f)
+                                    .height(220.dp)
+                                    .clip(RoundedCornerShape(16.dp))
+
+                            )
+
+                        } else {
+
+                            Column(
+
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(220.dp),
+
+                                verticalArrangement = Arrangement.Center,
+
+                                horizontalAlignment = Alignment.CenterHorizontally
+
+                            ) {
+
+                                Text(
+
+                                    text = "No image available",
+
+                                    style = FitnessDesign.typography.TitleMedium,
+
+                                    color = FitnessDesign.colors.TextSecondary
+
+                                )
+
+                            }
+
+                        }
 
                     }
 
@@ -92,37 +136,32 @@ fun ExerciseDetailsScreen(
 
                 item {
 
-                    InfoSection(
+                    FitnessChipGroup(
 
                         title = "Category",
-                        value = exercise.category
+
+                        chips = listOfNotNull(exercise.category),
+
+                        useAlternatingColors = true
 
                     )
 
                 }
 
+
                 item {
 
-                    AsyncImage(
-
-                        model = exercise.imageUrl,
-
-                        contentDescription = exercise.name,
-
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(220.dp)
-
-                    )
-
-                }
-                item {
-
-                    InfoSection(
+                    FitnessChipGroup(
 
                         title = "Equipment",
 
-                        value = exercise.equipment
+                        chips = exercise.equipment
+                            ?.split(",")
+                            ?.map { it.trim() }
+                            ?.filter { it.isNotBlank() }
+                            ?: emptyList(),
+
+                            useAlternatingColors = true
 
                     )
 
@@ -138,19 +177,18 @@ fun ExerciseDetailsScreen(
                             ?.split(",")
                             ?.map { it.trim() }
                             ?.filter { it.isNotBlank() }
-                            ?: emptyList()
+                            ?: emptyList(),
+
+                        useAlternatingColors = true
 
                     )
-
                 }
 
                 item {
 
-                    InfoSection(
+                    ExerciseInstructions(
 
-                        title = "Instructions",
-
-                        value = exercise.description
+                        html = exercise.description
 
                     )
 

@@ -18,7 +18,7 @@ fun FitnessChipGroup(
 
     chips: List<String>,
 
-    chipColor: Color = FitnessDesign.colors.Primary
+    useAlternatingColors: Boolean = false
 
 ) {
 
@@ -56,12 +56,21 @@ fun FitnessChipGroup(
 
         ) {
 
-            chips.forEach { chip ->
+            chips.forEachIndexed { index, chip ->
 
                 FitnessChip(
 
                     text = chip,
-                    color = chipColor
+
+                    color = if (useAlternatingColors)
+
+                        FitnessDesign.chipColors[
+                            index % FitnessDesign.chipColors.size
+                        ]
+
+                    else
+
+                        FitnessDesign.colors.Primary
 
                 )
 

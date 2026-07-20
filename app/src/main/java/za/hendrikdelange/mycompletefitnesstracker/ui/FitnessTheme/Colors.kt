@@ -8,6 +8,7 @@ object Colors {
     val Primary = Color(0xFF43A047)
     val PrimaryDark = Color(0xFF2E7D32)
     val Accent = Color(0xFF66BB6A)
+    val textBlack = Color(0x00000000)
 
     // Background
     val Background = Color(0xFF101418)

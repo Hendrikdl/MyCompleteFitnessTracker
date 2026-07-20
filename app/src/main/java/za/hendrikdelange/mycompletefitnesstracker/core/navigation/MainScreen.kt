@@ -113,7 +113,14 @@ fun MainScreen() {
                 if (exerciseId != null) {
 
                     ExerciseDetailsScreen(
-                        exerciseId = exerciseId
+                        exerciseId = exerciseId,
+
+                        onBackClick = {
+
+                            navController.popBackStack()
+
+                        }
+
                     )
 
                 }

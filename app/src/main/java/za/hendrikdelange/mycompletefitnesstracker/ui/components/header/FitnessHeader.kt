@@ -11,16 +11,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
 
 @Composable
 fun FitnessHeader(
 
     title: String,
+    color: Color,
 
     onBackClick: () -> Unit
 
 ) {
+
 
     Row(
 
@@ -58,7 +61,7 @@ fun FitnessHeader(
 
             style = FitnessDesign.typography.Heading,
 
-            color = FitnessDesign.colors.TextPrimary
+            color = color,
 
         )
 

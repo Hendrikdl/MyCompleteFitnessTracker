@@ -39,7 +39,7 @@ fun InfoSection(
 
             style = FitnessDesign.typography.Body,
 
-            color = FitnessDesign.colors.TextPrimary
+            color = FitnessDesign.colors.textBlack
 
         )
 
