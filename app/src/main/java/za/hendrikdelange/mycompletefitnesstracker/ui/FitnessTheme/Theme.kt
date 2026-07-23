@@ -1,4 +1,4 @@
-package za.hendrikdelange.mycompletefitnesstracker.ui.theme
+package za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -28,9 +28,9 @@ object FitnessDesign {
         Color(0xFFE91E63)    // Pink
     )
 
-    val colors = za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.Colors
-    val spacing = za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.Spacing
-    val shapes = za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.Shapes
-    val typography = za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.AppTypography
+    val colors = Colors
+    val spacing = Spacing
+    val shapes = Shapes
+    val typography = AppTypography
 
 }

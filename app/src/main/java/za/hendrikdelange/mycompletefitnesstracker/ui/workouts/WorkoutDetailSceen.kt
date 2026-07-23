@@ -26,9 +26,15 @@ import androidx.navigation.NavHostController
 import za.hendrikdelange.mycompletefitnesstracker.core.navigation.Screen
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.cards.WorkoutHeader
 import za.hendrikdelange.mycompletefitnesstracker.ui.exercises.ExerciseCard
-import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
+import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.FitnessDesign
 import za.hendrikdelange.mycompletefitnesstracker.viewmodel.WorkoutViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import za.hendrikdelange.mycompletefitnesstracker.ui.components.dialogs.ExerciseSetupDialog
+import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.WorkoutExerciseWithExercise
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,6 +51,14 @@ fun WorkoutDetailScreen(
     val workout by viewModel
         .getWorkout(workoutId)
         .collectAsState(initial = null)
+
+    var selectedExercise by remember {
+        mutableStateOf<WorkoutExerciseWithExercise?>(null)
+    }
+
+    var showSetupDialog by remember {
+        mutableStateOf(false)
+    }
 
     Scaffold(
 
@@ -148,7 +162,8 @@ fun WorkoutDetailScreen(
                 workout?.let {
 
                     WorkoutHeader(
-                        workout = it
+                        workout = it,
+                        exerciseCount = 0
                     )
 
                 }
@@ -173,29 +188,21 @@ fun WorkoutDetailScreen(
                         FitnessDesign.spacing.Small
                     )
 
-                ) {
+                    ) {
 
                     items(exercises) { item ->
 
                         ExerciseCard(
 
-                            exercise = item.exercise
+                            exercise = item.exercise,
+                            onClick = {
+                                selectedExercise = item
+                                showSetupDialog = true
+                            }
 
                         )
 
-                        if (!item.workoutExercise.isConfigured) {
 
-                            Text("⚠ Setup Required")
-
-                        }
-                        else {
-
-                            Text(
-                                "${item.workoutExercise.sets} Sets • " +
-                                        "${item.workoutExercise.repsFrom}-${item.workoutExercise.repsTo} Reps"
-                            )
-
-                        }
 
                     }
 
@@ -204,5 +211,36 @@ fun WorkoutDetailScreen(
             }
 
         }
+    if (
+
+        showSetupDialog &&
+
+        selectedExercise != null
+
+    ) {
+
+        ExerciseSetupDialog(
+
+            workoutExercise = selectedExercise!!,
+
+            onDismiss = {
+
+                showSetupDialog = false
+                selectedExercise = null
+
+            },
+
+            onSave = { weight, sets, repsFrom, repsTo, applyToAll ->
+
+                // We'll connect this to the ViewModel next.
+
+                showSetupDialog = false
+                selectedExercise = null
+
+            }
+
+        )
+
+    }
 
     }

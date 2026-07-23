@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
 import za.hendrikdelange.mycompletefitnesstracker.core.navigation.AppNavigation
-import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessTheme
+import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.FitnessTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

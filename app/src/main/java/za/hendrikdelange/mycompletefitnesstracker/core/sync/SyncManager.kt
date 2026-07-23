@@ -124,18 +124,31 @@ class SyncManager @Inject constructor(
 
         for (plan in plans) {
 
-            userRef()
-                .collection("workoutPlans")
-                .document(plan.syncId)
-                .set(plan)
-                .await()
+            if (plan.isDeleted) {
 
-            workoutRepository.markPlanSynced(plan.id)
+                userRef()
+                    .collection("workoutPlans")
+                    .document(plan.syncId)
+                    .delete()
+                    .await()
+
+                workoutRepository.deletePermanently(plan.id)
+
+            } else {
+
+                userRef()
+                    .collection("workoutPlans")
+                    .document(plan.syncId)
+                    .set(plan)
+                    .await()
+
+                workoutRepository.markPlanSynced(plan.id)
+
+            }
 
         }
 
     }
-
     private suspend fun uploadWorkoutSets() {
 
         val sets =

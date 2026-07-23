@@ -15,9 +15,8 @@ import coil.compose.AsyncImage
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.chips.FitnessChipGroup
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.display.ExerciseInstructions
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.header.FitnessHeader
-import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
+import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.FitnessDesign
 import za.hendrikdelange.mycompletefitnesstracker.viewmodel.ExerciseDetailsViewModel
-import za.hendrikdelange.mycompletefitnesstracker.ui.components.display.InfoSection
 
 @Composable
 fun ExerciseDetailsScreen(

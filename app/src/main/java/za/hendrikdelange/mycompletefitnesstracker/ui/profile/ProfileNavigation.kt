@@ -37,8 +37,18 @@ fun ProfileNavigation(
 
         }
 
+        val buttonText =
+            if (currentStep == totalSteps)
+                "Finish"
+            else
+                "Next"
+
         FitnessButton(
+
+            text = buttonText,
+
             enabled = canContinue,
+
             onClick = {
 
                 if (currentStep == totalSteps)
@@ -48,17 +58,8 @@ fun ProfileNavigation(
 
             }
 
-        ) {
+        )
 
-            Text(
-                if (currentStep == totalSteps)
-                    "Finish"
-                else
-                    "Next"
-            )
-
-        }
-
-    }
+            }
 
 }

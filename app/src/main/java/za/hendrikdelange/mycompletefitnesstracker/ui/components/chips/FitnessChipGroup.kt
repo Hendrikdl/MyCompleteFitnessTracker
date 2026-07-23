@@ -7,9 +7,8 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.cards.FitnessChip
-import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
+import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.FitnessDesign
 
 @Composable
 fun FitnessChipGroup(

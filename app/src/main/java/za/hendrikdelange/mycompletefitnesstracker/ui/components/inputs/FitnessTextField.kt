@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
+import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.FitnessDesign
 
 @Composable
 fun FitnessTextField(
@@ -49,7 +49,7 @@ fun FitnessTextField(
 
         },
 
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
 
         colors = OutlinedTextFieldDefaults.colors(
 

@@ -26,15 +26,11 @@ class WorkoutViewModel @Inject constructor(
 
     val workouts =
         workoutRepository
-            .getWorkouts()
+            .getWorkoutsWithExerciseCount()
             .stateIn(
-
                 viewModelScope,
-
                 SharingStarted.WhileSubscribed(5000),
-
                 emptyList()
-
             )
 
     fun createWorkout(
@@ -90,6 +86,18 @@ class WorkoutViewModel @Inject constructor(
 
             )
             syncCoordinator.requestSync()
+        }
+
+    }
+
+    fun deleteWorkout(id: Long) {
+
+        viewModelScope.launch {
+
+            workoutRepository.deleteWorkout(id)
+
+            syncCoordinator.requestSync()
+
         }
 
     }

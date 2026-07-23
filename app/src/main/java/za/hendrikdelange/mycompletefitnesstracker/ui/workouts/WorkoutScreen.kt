@@ -18,11 +18,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.cards.WorkoutCard
-import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
+import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.FitnessDesign
 import za.hendrikdelange.mycompletefitnesstracker.viewmodel.WorkoutViewModel
 import androidx.compose.runtime.setValue
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.dialogs.CreateWorkoutPlanDialog
-import androidx.navigation.NavHostController
 
 
 @Composable
@@ -34,7 +33,9 @@ fun WorkoutScreen(
 
 )  {
 
+
     val workouts by viewModel.workouts.collectAsState()
+
     var showCreateDialog by remember {
         mutableStateOf(false)
     }
@@ -89,12 +90,18 @@ fun WorkoutScreen(
 
                 WorkoutCard(
 
-                    workout = workout,
+                    workout = workout.workout,
+
+                    exerciseCount = workout.exerciseCount,
 
                     onClick = {
 
-                      onWorkoutClick(workout.id)
+                      onWorkoutClick(workout.workout.id)
 
+                    },
+
+                    onDelete = {
+                        viewModel.deleteWorkout(workout.workout.id)
                     }
                 )
 
@@ -124,11 +131,24 @@ fun WorkoutScreen(
 
                     showCreateDialog = false
 
+
+
                 }
 
             )
 
+
+
+
+
         }
+
+
+
+
+
+
+
 
     }
 

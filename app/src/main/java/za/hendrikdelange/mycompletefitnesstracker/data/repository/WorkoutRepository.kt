@@ -70,16 +70,21 @@ class WorkoutRepository @Inject constructor(
 
     }
 
-    suspend fun deleteWorkout(
-        workout: WorkoutPlanEntity
-    ) {
+    suspend fun deleteWorkout(id: Long) {
 
-        workoutDao.delete(workout)
-
+        workoutDao.markDeleted(id)
 
     }
 
 
+    suspend fun deletePermanently(id: Long) {
+
+        workoutDao.deleteById(id)
+
+    }
+
+    fun getWorkoutsWithExerciseCount() =
+        workoutDao.getWorkoutsWithExerciseCount()
 
 
 
@@ -96,6 +101,8 @@ class WorkoutRepository @Inject constructor(
     fun getWorkoutById(
         workoutId: Long
     ) = workoutDao.getWorkoutById(workoutId)
+
+
 
 
     suspend fun addSet(

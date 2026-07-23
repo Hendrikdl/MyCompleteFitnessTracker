@@ -12,6 +12,10 @@ sealed class StartupProgress(
     object DownloadingProfile :
         StartupProgress("Getting your profile...")
 
+    data class DownloadingExercises(
+        val count: Int
+    ) : StartupProgress("Downloading exercise library...")
+
     object DownloadingMeasurements :
         StartupProgress("Getting your measurements...")
 

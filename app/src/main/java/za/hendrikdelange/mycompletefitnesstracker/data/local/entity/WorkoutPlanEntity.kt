@@ -18,6 +18,8 @@ data class WorkoutPlanEntity(
 
     val dayOfWeek: Int = 0,
 
+    val isDeleted: Boolean = false,
+
     val created: Long = System.currentTimeMillis(),
 
     val updated: Long = System.currentTimeMillis(),

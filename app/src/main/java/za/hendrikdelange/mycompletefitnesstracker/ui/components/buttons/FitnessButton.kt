@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -14,13 +15,13 @@ import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.Shapes
 @Composable
 fun FitnessButton(
 
+    text: String,
+
     onClick: () -> Unit,
 
     modifier: Modifier = Modifier,
 
-    enabled: Boolean = true,
-
-    content: @Composable () -> Unit
+    enabled: Boolean = true
 
 ) {
 
@@ -49,12 +50,15 @@ fun FitnessButton(
         )
 
     ) {
-        androidx.compose.material3.ProvideTextStyle(
-            value = MaterialTheme.typography.titleMedium
-        ) {
 
-            content()
+        Text(
 
-        }
+            text = text,
+
+            style = MaterialTheme.typography.titleMedium
+
+        )
+
     }
+
 }

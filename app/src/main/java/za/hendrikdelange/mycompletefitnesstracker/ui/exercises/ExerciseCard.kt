@@ -1,7 +1,6 @@
 package za.hendrikdelange.mycompletefitnesstracker.ui.exercises
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -9,7 +8,7 @@ import androidx.compose.ui.Modifier
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ExerciseEntity
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.cards.FitnessCard
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.text.FitnessSectionTitle
-import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
+import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.FitnessDesign
 
 @Composable
 fun ExerciseCard(
@@ -22,10 +21,11 @@ fun ExerciseCard(
 
     FitnessCard(
 
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .clickable{onClick()},
-
+            .clickable {
+                onClick()
+            }
 
     ) {
 

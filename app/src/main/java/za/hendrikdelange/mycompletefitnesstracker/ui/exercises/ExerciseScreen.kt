@@ -15,7 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import za.hendrikdelange.mycompletefitnesstracker.data.local.entity.ExerciseEntity
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.cards.ExerciseLibraryHeader
 import za.hendrikdelange.mycompletefitnesstracker.ui.components.input.FitnessSearchBar
-import za.hendrikdelange.mycompletefitnesstracker.ui.theme.FitnessDesign
+import za.hendrikdelange.mycompletefitnesstracker.ui.FitnessTheme.FitnessDesign
 import za.hendrikdelange.mycompletefitnesstracker.viewmodel.ExerciseViewModel
 
 @Composable

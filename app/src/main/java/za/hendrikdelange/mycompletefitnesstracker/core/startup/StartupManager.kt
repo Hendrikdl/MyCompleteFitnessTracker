@@ -6,12 +6,14 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import za.hendrikdelange.mycompletefitnesstracker.data.repository.ExerciseRepository
 
 @Singleton
 class StartupManager @Inject constructor(
 
     private val auth: FirebaseAuth,
-    private val syncManager: SyncManager
+    private val syncManager: SyncManager,
+    private val exerciseRepository: ExerciseRepository
 
 ) {
 
@@ -37,6 +39,14 @@ class StartupManager @Inject constructor(
             StartupProgress.DownloadingProfile
 
         syncManager.synchronize()
+
+
+        exerciseRepository.initializeExerciseLibrary { progress ->
+
+            _progress.value =
+                StartupProgress.DownloadingExercises(progress)
+
+        }
 
         _progress.value =
             StartupProgress.Finished

@@ -19,7 +19,7 @@ class ExerciseRepository @Inject constructor(
 
 
     ) {
-    private  val MIN_EXERCISES = 1000
+    private  val MIN_EXERCISES = 800
 
     suspend fun getExercisesNeedingSync() =
         exerciseDao.getExercisesNeedingSync()
